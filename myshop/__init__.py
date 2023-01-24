@@ -1,12 +1,21 @@
 from flask import Flask
 from flask_assets import Environment, Bundle
+from flask_sqlalchemy import SQLAlchemy
+from os import path
 
 
+DB_NAME = "myshop.db"
+db = SQLAlchemy()
 
 
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'secret_key'
+    
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+    db.init_app(app)
+    
+    create_database(app)
     
     
     from .admin import admin
@@ -39,3 +48,8 @@ def create_app():
     return app
     
 
+def create_database(app):
+    if not path.exists('shop/' + DB_NAME):
+        with app.app_context():
+            db.create_all()
+        print('Created Database!')
