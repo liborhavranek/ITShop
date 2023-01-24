@@ -2,10 +2,13 @@ from flask import Flask
 from flask_assets import Environment, Bundle
 from flask_sqlalchemy import SQLAlchemy
 from os import path
+from flask_login import LoginManager
 
 
 DB_NAME = "myshop.db"
 db = SQLAlchemy()
+
+login_manager = LoginManager()
 
 
 def create_app():
@@ -15,8 +18,18 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     db.init_app(app)
     
+    
+    
+    from .models import Costumer
     create_database(app)
     
+    login_manager = LoginManager()
+    login_manager.login_view = 'auth.login'
+    login_manager.init_app(app)
+    
+    @login_manager.user_loader
+    def load_user(id):
+        return Costumer.query.get(id)
     
     from .admin import admin
     from .products import products
@@ -49,7 +62,8 @@ def create_app():
     
 
 def create_database(app):
-    if not path.exists('shop/' + DB_NAME):
+    if not path.exists('myshop/' + DB_NAME):
         with app.app_context():
             db.create_all()
+            print('table created')
         print('Created Database!')

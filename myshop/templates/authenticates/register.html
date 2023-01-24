@@ -1,0 +1,550 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container-fluid register-form-container d-flex justify-content-center">
+  
+
+
+<div class="text-center form-div px-5 my-5">
+    
+
+<h1 class="registrace py-5">Registrace zákazníka</h1>
+
+<form method="POST">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <!-- emial label and input -->
+  <div class="mb-3">
+    
+    <div class="row">
+        <div class="col-3 d-flex align-items-center">
+            <label for="email" class="form-label">Email:</label>
+        </div>
+    <div class="col-8">
+    <input type="text" class="form-control" name="email"
+      id="registration_email" aria-describedby="emailHelp" placeholder="Přihlašovací email"/>
+      <div class="costumer_email_check text-start" id="costumer_email_check_id"><small class=" email-used"></small></div>
+    </div>
+      <div class="col-1 check-tag d-flex align-items-center"><i class="fa-sharp fa-solid fa-circle-check fa-xl"></i></div>
+    </div>
+      
+  </div>
+
+
+
+
+
+
+<!-- ---------------------------------------------------------------------------------------- -->
+
+<!-- -----------------------username label and input---------------------------------------  -->
+
+
+  <div class="mb-3">
+    
+    <div class="row">
+        <div class="col-3 d-flex align-items-center">
+            <label for="username" class="form-label">Přihlašovací jméno:</label>
+        </div>
+        <div class="col-8">
+    <input type="text" class="form-control" name="username" 
+    id="registration_username" aria-describedby="emailHelp" placeholder="Přihlašovací jméno"/>
+    <div class="costumer_username_check text-start" id="costumer_username_check_id"><small class=" username-used"></small></div>
+    </div>
+    <div class="col-1 check-tag-username d-flex align-items-center"><i class="fa-sharp fa-solid fa-circle-check fa-xl"></i></div>
+    </div>
+    
+  </div>
+
+
+
+ <!-------------------------phone number label ------------------------------------>
+
+
+
+  <div class="mb-3">
+    
+<div class="row">
+    <div class="col-3 d-flex align-items-center">
+        <label for="phone" class="form-label">Telefonní číslo:</label>
+    </div>
+    <div class="col-1 ps-2">
+        <img src="{{url_for('static', filename='images/czech-flag.png')}}" class="flag">
+    
+    </div>
+<div class="col-3">
+    <select class="form-select" aria-label="Default select example" id="flag-selector" name="phone_code">
+        <option value="+421">+421</option>
+        <option value="+420">+420</option>
+      </select>
+</div>
+
+<div class="col-4">
+    <input type="text" class="form-control" name="phone" pattern="[0-9]*"
+    id="registration_phone" aria-describedby="emailHelp" placeholder="Tel číslo" maxlength="9"/>
+</div>
+<div class="col-1 check-tag-phone d-flex align-items-center"><i class="fa-sharp fa-solid fa-circle-check fa-xl"></i></div>
+</div>
+
+  </div>
+
+
+
+
+<!-- -----------------------------password 1 label ---------------------------- -->
+
+
+  <div class="mb-3">
+    
+    <div class="row">
+        <div class="col-3 d-flex align-items-center">
+            <label for="Password1" class="form-label">Heslo:</label>
+        </div>
+    <div class="col-8">
+    <input type="password" name="password1" class="form-control"
+      id="Password1" placeholder="Heslo"/>
+      <div class="costumer_password_one_check text-start" id="costumer_password_one_check_id"><small class=" password-one-used"></small></div>
+    </div>
+    <div class="col-1 check-tag-password-one d-flex align-items-center"><i class="fa-sharp fa-solid fa-circle-check fa-xl"></i></div>
+    </div>
+    
+</div>
+
+
+
+
+
+  <div class="mb-3">
+    
+    <div class="row">
+        <div class="col-3 d-flex align-items-center">
+            <label for="Password2" class="form-label">Heslo:</label>
+        </div>
+        <div class="col-8">
+    <input type="password" name="password2" class="form-control"
+      id="Password2" placeholder="Potvrdit Heslo"/>
+      <div class="costumer_password_two_check text-start" id="costumer_password_two_check_id"><small class=" password-one-used"></small></div>
+
+  </div>
+  <div class="col-1 check-tag-password-two d-flex align-items-center"><i class="fa-sharp fa-solid fa-circle-check fa-xl"></i></div>
+</div>
+</div>
+
+
+
+
+
+
+
+<div id="accordion">
+
+   <!-- ------------------------- Fakturacni udaje  ----------------------------------- -->
+
+    <div class="d-grid gap-2 my-3">
+        <button class="btn btn-primary " type="button" data-bs-toggle="collapse" href="#collapseOne">
+            Fakturační údaje(nepovinné)
+        </button>
+        </div>
+
+
+    <div class="collapse" id="collapseOne">
+
+<!-- --------------------------------jmeno---------------------------------------- -->
+        <div class="mb-3">
+    
+            <div class="row">
+                <div class="col-3 d-flex align-items-center">
+                    <label for="faktura_first_name" class="form-label">Jméno:</label>
+                </div>
+                <div class="col-8">
+            <input type="text" class="form-control" name="faktura_first_name" 
+            id="faktura_first_name" aria-describedby="emailHelp" placeholder="Zadejte své jméno"/>
+            <div class="costumer_faktura_first_name_check text-start"><small class="faktura_first_name-used"></small></div>
+            </div>
+            <div class="col-1 check-tag-faktura-first-name d-flex align-items-center"><i class="fa-sharp fa-solid fa-circle-check fa-xl"></i></div>
+            </div>
+            
+          </div>
+
+<!-- --------------------------------------------prijmeni -------------------------------------------- -->
+
+            <div class="mb-3">
+          <div class="row">
+            <div class="col-3 d-flex align-items-center">
+                <label for="faktura_last_name" class="form-label">Příjmení:</label>
+            </div>
+            <div class="col-8">
+        <input type="text" class="form-control" name="faktura_last_name" 
+        id="faktura_last_name" aria-describedby="emailHelp" placeholder="Zadejte své příjmení"/>
+        <div class="costumer_faktura_last_name_check text-start"><small class="faktura_last_name-used"></small></div>
+        </div>
+        <div class="col-1 check-tag-faktura-last-name d-flex align-items-center"><i class="fa-sharp fa-solid fa-circle-check fa-xl"></i></div>
+        </div>
+        
+      </div>
+        
+
+
+<!-- ------------------------------------------Mesto --------------------------------------------- -->
+
+<div class="mb-3">
+    <div class="row">
+      <div class="col-3 d-flex align-items-center">
+          <label for="faktura_city" class="form-label">Město:</label>
+      </div>
+      <div class="col-8">
+  <input type="text" class="form-control" name="faktura_city" 
+  id="faktura_city" aria-describedby="emailHelp" placeholder="Zadejte město"/>
+  <div class="costumer_faktura_city_check text-start"><small class="faktura_faktura_city_used"></small></div>
+  </div>
+  <div class="col-1 check-tag-faktura-city d-flex align-items-center"><i class="fa-sharp fa-solid fa-circle-check fa-xl"></i></div>
+  </div>
+  
+</div>
+
+<!-- ------------------------------------------ulice a psc --------------------------------------------- -->
+
+<div class="mb-3">
+    <div class="row">
+      <div class="col-3 d-flex align-items-center">
+          <label for="faktura_street" class="form-label">Ulice:</label>
+      </div>
+      <div class="col-5">
+  <input type="text" class="form-control" name="faktura_street" 
+  id="faktura_street" aria-describedby="emailHelp" placeholder="Ulice"/>
+  <div class="costumer_faktura_street_check text-start"><small class="faktura_faktura_street_used"></small></div>
+  </div>
+  <div class="col-1 d-flex align-items-center">
+    <label for="faktura_zipcode" class="form-label">PSČ:</label>
+</div>
+<div class="col-2">
+    <input type="text" class="form-control" name="faktura_zipcode" 
+    id="faktura_zipcode" aria-describedby="emailHelp" placeholder="PSČ" maxlength="5"/>
+    <div class="costumer_faktura_zipcode_check text-start"><small class="faktura_faktura_zipcode_used"></small></div>
+    </div>
+
+  <div class="col-1 check-tag-faktura-zipcode d-flex align-items-center"><i class="fa-sharp fa-solid fa-circle-check fa-xl"></i></div>
+  </div>
+  
+</div>
+
+
+
+
+    </div>
+
+
+ <!-- ------------------------- dodaci udaje ----------------------------------- -->
+
+
+    <div class="d-grid gap-2 my-3">
+        <button class="btn btn-primary " type="button" data-bs-toggle="collapse" href="#collapseTwo">
+           Dodací údaje(nepovinné)
+        </button>
+        </div>
+    
+
+
+
+    <div class="collapse" id="collapseTwo">
+
+        <p>Zadejte dodací údaje v případě, že se liší od fakturačních údajů </p>
+
+<!-- --------------------------------jmeno---------------------------------------- -->
+<div class="mb-3">
+    
+    <div class="row">
+        <div class="col-3 d-flex align-items-center">
+            <label for="dodej_first_name" class="form-label">Jméno:</label>
+        </div>
+        <div class="col-8">
+    <input type="text" class="form-control" name="dodej_first_name" 
+    id="dodej_first_name" aria-describedby="emailHelp" placeholder="Zadejte své jméno"/>
+    <div class="costumer_dodej_first_name_check text-start"><small class="dodej_first_name-used"></small></div>
+    </div>
+    <div class="col-1 check-tag-dodej-first-name d-flex align-items-center"><i class="fa-sharp fa-solid fa-circle-check fa-xl"></i></div>
+    </div>
+    
+  </div>
+
+<!-- --------------------------------------------prijmeni -------------------------------------------- -->
+
+    <div class="mb-3">
+  <div class="row">
+    <div class="col-3 d-flex align-items-center">
+        <label for="dodej_last_name" class="form-label">Příjmení:</label>
+    </div>
+    <div class="col-8">
+<input type="text" class="form-control" name="dodej_last_name" 
+id="dodej_last_name" aria-describedby="emailHelp" placeholder="Zadejte své příjmení"/>
+<div class="costumer_dodej_last_name_check text-start"><small class="dodej_last_name-used"></small></div>
+</div>
+<div class="col-1 check-tag-dodej-last-name d-flex align-items-center"><i class="fa-sharp fa-solid fa-circle-check fa-xl"></i></div>
+</div>
+
+</div>
+
+
+
+<!-- --------------------------------------------Firma -------------------------------------------- -->
+
+<div class="mb-3">
+    <div class="row">
+      <div class="col-3 d-flex align-items-center">
+          <label for="dodej_company" class="form-label">Firma:</label>
+      </div>
+      <div class="col-8">
+  <input type="text" class="form-control" name="dodej_company" 
+  id="dodej_company" aria-describedby="emailHelp" placeholder="Zadejte jméno firmy"/>
+  <div class="costumer_dodej_company_check text-start"><small class="dodej_company-used"></small></div>
+  </div>
+  <div class="col-1 check-tag-dodej-company d-flex align-items-center"><i class="fa-sharp fa-solid fa-circle-check fa-xl"></i></div>
+  </div>
+  
+  </div>
+
+
+
+<!-- ------------------------------------------Mesto --------------------------------------------- -->
+
+<div class="mb-3">
+    <div class="row">
+      <div class="col-3 d-flex align-items-center">
+          <label for="dodej_city" class="form-label">Město:</label>
+      </div>
+      <div class="col-8">
+  <input type="text" class="form-control" name="dodej_city" 
+  id="dodej_city" aria-describedby="emailHelp" placeholder="Zadejte město"/>
+  <div class="costumer_dodej_city_check text-start"><small class="dodej_city_used"></small></div>
+  </div>
+  <div class="col-1 check-tag-dodej-city d-flex align-items-center"><i class="fa-sharp fa-solid fa-circle-check fa-xl"></i></div>
+  </div>
+  
+</div>
+
+<!-- ------------------------------------------ulice a psc --------------------------------------------- -->
+
+<div class="mb-3">
+    <div class="row">
+      <div class="col-3 d-flex align-items-center">
+          <label for="dodej_street" class="form-label">Ulice:</label>
+      </div>
+      <div class="col-5">
+  <input type="text" class="form-control" name="dodej_street" 
+  id="dodej_street" aria-describedby="emailHelp" placeholder="Ulice"/>
+  <div class="costumer_dodej_street_check text-start"><small class="dodej_street_used"></small></div>
+  </div>
+  <div class="col-1 d-flex align-items-center">
+    <label for="dodej_zipcode" class="form-label">PSČ:</label>
+</div>
+<div class="col-2">
+    <input type="text" class="form-control" name="dodej_zipcode" 
+    id="dodej_zipcode" aria-describedby="emailHelp" placeholder="PSČ" maxlength="5"/>
+    <div class="costumer_dodej_zipcode_check text-start"><small class="dodej_zipcode_used"></small></div>
+    </div>
+
+  <div class="col-1 check-tag-dodej-zipcode d-flex align-items-center"><i class="fa-sharp fa-solid fa-circle-check fa-xl"></i></div>
+  </div>
+  
+</div>
+
+
+
+<!-- --------------------------------dodej info---------------------------------------- -->
+<div class="mb-3">
+    
+    <div class="row">
+        <div class="col-3 d-flex align-items-center">
+            <label for="dodej_info" class="form-label">Info:</label>
+        </div>
+        <div class="col-8">
+    <input type="text" class="form-control" name="dodej_info" 
+    id="dodej_info" aria-describedby="emailHelp" placeholder="Info např. patro"/>
+    <div class="costumer_dodej_info_check text-start"><small class="dodej_info-used"></small></div>
+    </div>
+    <div class="col-1 check-tag-dodej-info d-flex align-items-center"><i class="fa-sharp fa-solid fa-circle-check fa-xl"></i></div>
+    </div>
+    
+  </div>
+
+ <!-------------------------dodej phone number------------------------------------>
+
+ <div class="mb-3">
+    
+    <div class="row">
+        <div class="col-3 d-flex align-items-center">
+            <label for="dodej_phone" class="form-label">Telefonní číslo:</label>
+        </div>
+        <div class="col-1 ps-2">
+            <img src="{{url_for('static', filename='images/czech-flag.png')}}" class="flag-dodej">
+        
+        </div>
+    <div class="col-3">
+        <select class="form-select" aria-label="Default select example" id="flag-dodej-selector" name="dodej_phone_code">
+            <option value="+421">+421</option>
+            <option value="+420">+420</option>
+          </select>
+    </div>
+    
+    <div class="col-4">
+        <input type="text" class="form-control" name="dodej_phone" pattern="[0-9]*"
+        id="registration_dodej_phone" aria-describedby="emailHelp" placeholder="Tel číslo" maxlength="9"/>
+    </div>
+    <div class="col-1 check-tag-dodej-phone d-flex align-items-center"><i class="fa-sharp fa-solid fa-circle-check fa-xl"></i></div>
+    </div>
+    
+      </div>
+    
+    
+
+
+    </div>
+
+ <!-- ------------------------- firemni udaje ----------------------------------- -->
+
+    <div class="d-grid gap-2 my-3">
+        <button class="btn btn-primary " type="button" data-bs-toggle="collapse" href="#collapseThree">
+            Firemní údaje(nepovinné)
+        </button>
+        </div>
+
+    <div class="collapse" id="collapseThree" >
+
+
+ <!-- ------------------------- ICO ----------------------------------- -->
+
+
+        <div class="mb-3">
+    
+            <div class="row">
+                <div class="col-3 d-flex align-items-center">
+                    <label for="firma_ico" class="form-label">IČO:</label>
+                </div>
+
+            
+            <div class="col-8">
+                <input type="text" class="form-control" name="firma_ico" pattern="[0-9]*"
+                id="registration_firma_ico" aria-describedby="emailHelp" placeholder="IČO" maxlength="8"/>
+                <div class="costumer_firma_ico_check text-start"><small class="firma-ico-used"></small></div>
+            </div>
+            <div class="col-1 check-tag-firma-ico d-flex align-items-center"><i class="fa-sharp fa-solid fa-circle-check fa-xl"></i></div>
+            </div>
+            
+              </div>
+            
+
+ <!-- ------------------------- DIC ----------------------------------- -->
+
+
+              <div class="mb-3">
+    
+                <div class="row">
+                    <div class="col-3 d-flex align-items-center">
+                        <label for="firma_dic" class="form-label">DIČ:</label>
+                    </div>
+    
+                
+                <div class="col-8">
+                    <input type="text" class="form-control" name="firma_dic" id="registration_firma_dic" aria-describedby="emailHelp" placeholder="DIČ" maxlength="12"/>
+                    <div class="costumer_firma_dic_check text-start"><small class="firma-dic-used"></small></div>
+                </div>
+                <div class="col-1 check-tag-firma-dic d-flex align-items-center"><i class="fa-sharp fa-solid fa-circle-check fa-xl"></i></div>
+                </div>
+                
+                  </div>
+
+
+
+ <!-- ------------------------- Bankovni cislo ----------------------------------- -->
+
+ <div class="mb-3">
+    
+    <div class="row">
+        <div class="col-3 d-flex align-items-center">
+            <label for="dodej_phone" class="form-label">Bankovní účet:</label>
+        </div>
+
+
+    
+    <div class="col-5">
+        <input type="text" class="form-control" name="firma_bank_acc" pattern="[0-9]*"
+        id="registration_firma_bank_acc" aria-describedby="emailHelp" placeholder="Číslo účtu" maxlength="20"/>
+        <div class="costumer_firma_bank_acc_check text-start"><small class="firma-dic-used"></small></div>
+    </div>
+    <div class="col-1"> <p>/</p></div>
+
+    <div class="col-2">
+        <input type="text" class="form-control" name="firma_bank_number" pattern="[0-9]*"
+        id="registration_firma_bank_number" aria-describedby="emailHelp" placeholder="Banka" maxlength="4" minlength="4"/>
+        <div class="costumer_firma_bank_number_check text-start"><small class="firma-dic-used"></small></div>
+    </div>
+
+
+
+    <div class="col-1 check-tag-firma-bank-acc d-flex align-items-center"><i class="fa-sharp fa-solid fa-circle-check fa-xl"></i></div>
+    </div>
+    
+      </div>
+
+
+
+
+
+
+      <!-- ------------------------- ICO ----------------------------------- -->
+
+
+      <div class="mb-3">
+    
+        <div class="row">
+            <div class="col-3 d-flex align-items-center">
+                <label for="firma_spec_symbol" class="form-label">Specifický symbol:</label>
+            </div>
+
+        
+        <div class="col-8">
+            <input type="text" class="form-control" name="firma_spec_symbol" pattern="[0-9]*"
+            id="registration_firma_spec_symbol" aria-describedby="emailHelp" placeholder="Specifický symbol" maxlength="10"/>
+        </div>
+        <div class="col-1 check-tag-firma-spec-symbol d-flex align-items-center"><i class="fa-sharp fa-solid fa-circle-check fa-xl"></i></div>
+        </div>
+        
+          </div>
+        
+
+
+              
+
+    </div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<div class="py-3">
+  <button type="submit" class="btn btn-warning">Registrovat</button>
+</div>
+</form>
+
+
+
+
+
+</div>
+</div>
+{% endblock content %}
