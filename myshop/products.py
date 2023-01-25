@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, request, flash, redirect, get_flas
 products = Blueprint('products', __name__, template_folder='templates/products')
 from flask_login import login_user, logout_user, login_required, current_user
 from datetime import datetime
-from .models import Brand
+from .models import Brand, Category
 from . import db
 
 @products.route('/products')
@@ -50,7 +50,9 @@ def addbrand():
                 'flash_message': get_flashed_messages(with_categories=True),
                 'brand': new_brand.brand,
                 'id': new_brand.id,
-                'date_created': new_brand.date_created
+                'date_created': new_brand.date_created,
+                'date_edited': new_brand.date_edited,
+                'edited': new_brand.edited,
             })
     return render_template('addbrand.html', brands=brands)
 
@@ -71,6 +73,8 @@ def editbrand(id):
             return handle_response()
         else:
             brand.brand = new_brand
+            brand.date_edited = datetime.now()
+            brand.edited = True
             db.session.commit()
             flash('Značka byla upravena.', category='success')
             return handle_response(data={
@@ -88,3 +92,73 @@ def deletebrand(id):
     db.session.delete(brand)
     db.session.commit()
     return jsonify({'message': 'Značka byla smazána'})
+
+
+
+
+
+
+@products.route('/addcategory', methods=['GET', 'POST'])
+@login_required
+def addcategory():
+    categories = Category.query.all() 
+    if request.method == 'POST':
+        category = request.form.get("category").title()
+        if len(category) < 3:
+            flash("Kategorie musí mít minimálně 3 znaky", category="danger")
+            return handle_response()
+        existing_category = Category.query.filter_by(category=category).first()
+        if existing_category:
+            flash("Kategorie už existuje !", category="danger")
+            return handle_response()
+        else:
+            new_category = Category(category=category, date_created=datetime.now())
+            db.session.add(new_category)
+            db.session.commit()
+            flash("Kategorie byla přidána", category="success")
+            return handle_response(data={
+                'flash_message': get_flashed_messages(with_categories=True),
+                'category': new_category.category,
+                'id': new_category.id,
+                'date_created': new_category.date_created,
+                'date_edited': new_category.date_edited,
+                'edited': new_category.edited,
+            })
+    return render_template('addcategory.html', categories=categories)
+
+
+
+@products.route('/editcategory/<int:id>', methods=['GET','POST'])
+@login_required
+def editcategory(id):
+    category = Category.query.filter_by(id=id).first()
+    if request.method == 'POST':
+        new_category = request.form.get("edit_category").title()
+        if len(new_category) < 3:
+            flash("Kategorie musí mít minimálně 3 znaky!", category="danger")
+            return handle_response()
+        existing_category = Category.query.filter_by(category=new_category).first()
+        if existing_category:
+            flash("Kategorie už existuje!", category="danger")
+            return handle_response()
+        else:
+            category.category = new_category
+            category.date_edited = datetime.now()
+            category.edited = True
+            db.session.commit()
+            flash('Kategorie byla editována.', category='success')
+            return handle_response(data={
+            'flash_message': get_flashed_messages(with_categories=True),
+            'category': category.category,
+            })
+    return render_template('editcategory.html', category=category)
+
+
+
+@products.route('/deletecategory/<int:id>', methods=['DELETE'])
+@login_required
+def deletecategory(id):
+    category = Category.query.filter_by(id=id).first()
+    db.session.delete(category)
+    db.session.commit()
+    return jsonify({'message': 'Kategorie byla smazána'})

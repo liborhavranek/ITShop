@@ -37,7 +37,9 @@
       <tr>
         <th scope="col">ID</th>
         <th scope="col">Značka</th>
-        <th scope="col">Datum vytvření</th>
+        <th scope="col">Datum vytvoření</th>
+        <th scope="col">Editováno</th>
+        <th scope="col">Poslední edit</th>
         <th scope="col">Upravit</th>
         <th scope="col">Smazat</th>
       </tr>
@@ -47,8 +49,21 @@
       <tr>
         <th scope="row">{{ brand.id }}</th>
         <td>{{ brand.brand }}</td>
-        <td>{{ brand.date_created }}</td>
-        <td><a class="btn btn-info btn-sm" href="/editbrand/{{ brand.id }}">Upravit značku</a></td>
+        <td>{{ brand.date_created.strftime('%H:%M, %d %b, %Y') }}</td>
+
+        {% if brand.edited == False %}
+        <td>NE</td>
+        {%else%}
+        <td>ANO</td>
+        {% endif %}
+
+        {% if brand.date_edited == None %}
+        <td></td>
+        {% else %}
+        <td>{{brand.date_edited.strftime('%H:%M, %d %b, %Y') }}</td>
+        {% endif %}
+
+        <td><a class="btn btn-info btn-sm" href="/editbrand/{{ brand.id }}">Upravit</a></td>
         <td><a id="brand-{{brand.id}}" data-id="{{ brand.id }}" class="btn btn-danger btn-sm delete-brand-button"href="/deletecategory/{{ brand.id }}">Smazat</a></td>
       </tr>
       {% endfor %}

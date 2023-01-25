@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container-fluid register-form-container ">
+
+
+<div class="row">
+<div class="col-3"> 
+
+    {% include 'sidebar.html' %}
+</div>
+
+<div class="col-9 ">
+
+
+  <div class="addcategory-form py-5 px-5">
+ <h1 class="text-center">Přidat kategorii</h1>
+<h3>{{current_user.username}}</h3>
+
+ <div class="addcategory-form-div w-75 py-5">
+<form  id="add-category-form" action="" method="POST" enctype="multipart/form-data" class="form-inline">
+  <div class="row">
+    <div class="col">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <input type="text" name="category" class="form-control">
+</div>
+<div class="col">
+  <input type="submit" value="Přidat kategorii" class="btn btn-info tm-2">
+</div>
+</div>
+</form>
+</div>
+<div id="categories-list">
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Značka</th>
+        <th scope="col">Datum vytvoření</th>
+        <th scope="col">Editováno</th>
+        <th scope="col">Poslední edit</th>
+        <th scope="col">Upravit</th>
+        <th scope="col">Smazat</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for category in categories %}
+      <tr>
+        <th scope="row">{{ category.id }}</th>
+        <td>{{ category.category }}</td>
+        <td>{{ category.date_created.strftime('%H:%M, %d %b, %Y')  }}</td>
+        {% if category.edited == False %}
+        <td>NE</td>
+        {%else%}
+        <td>ANO</td>
+        {% endif %}
+
+        {% if category.date_edited == None %}
+        <td></td>
+        {% else %}
+        <td>{{category.date_edited.strftime('%H:%M, %d %b, %Y') }}</td>
+        {% endif %}
+        <td><a class="btn btn-info btn-sm" href="/editcategory/{{ category.id }}">Upravit</a></td>
+        <td><a id="category-{{category.id}}" data-id="{{ category.id }}" class="btn btn-danger btn-sm delete-category-button"href="/deletecategory/{{ category.id }}">Smazat</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+</div>
+{% endblock content %}

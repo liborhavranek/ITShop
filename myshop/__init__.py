@@ -4,12 +4,12 @@ from flask_assets import Environment, Bundle
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
-
+from flask_migrate import Migrate
 
 DB_NAME = "myshop.db"
 db = SQLAlchemy()
 
-
+migrate = Migrate()
 
 login_manager = LoginManager()
 
@@ -23,6 +23,7 @@ def create_app():
     db.init_app(app)
     
     csrf.init_app(app)
+    migrate.init_app(app, db)
     
     
     from .models import Costumer

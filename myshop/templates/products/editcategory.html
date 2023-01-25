@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container-fluid register-form-container ">
+
+
+<div class="row">
+<div class="col-3"> 
+
+    {% include 'sidebar.html' %}
+</div>
+
+<div class="col-9 py-5 px-5">
+
+
+    <h1 class="text-center">Upravit kategorii</h1>
+    <h3 class="text-center edit-category-name py-5">{{category.category}}</h3>
+
+
+    <div class="w-50 mx-auto text-center">
+    <form  id="edit-category-form" action="" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <input type="hidden" name="value_id_for_jquery" value="{{category.id}}">
+      <label for="edit_category" class="form-label"><p class="edit-category-name-two">Změnit kategorii {{category.category}}</p></label>
+      <input type="text" name="edit_category" class="form-control"> <br>
+      <input type="submit" value="Upravit kategorii" class="btn btn-info tm-2">
+  </form>
+  
+
+
+
+</div>
+
+</div>
+
+</div>
+
+
+</div>
+{% endblock content %}
