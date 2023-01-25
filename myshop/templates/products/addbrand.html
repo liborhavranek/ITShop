@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container-fluid register-form-container ">
+
+
+<div class="row">
+<div class="col-3"> 
+
+    {% include 'sidebar.html' %}
+</div>
+
+<div class="col-9 ">
+
+
+  <div class="addbrand-form py-5 px-5">
+ <h1 class="text-center">Přidat Značku </h1>
+<h3>{{current_user.username}}</h3>
+
+ <div class="addbrand-form-div w-75 py-5">
+<form  id="add-brand-form" action="" method="POST" enctype="multipart/form-data" class="form-inline">
+  <div class="row">
+    <div class="col">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <input type="text" name="brand" class="form-control">
+</div>
+<div class="col">
+  <input type="submit" value="Přidat značku" class="btn btn-info tm-2">
+</div>
+</div>
+</form>
+</div>
+<div id="brands-list">
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Značka</th>
+        <th scope="col">Datum vytvření</th>
+        <th scope="col">Upravit</th>
+        <th scope="col">Smazat</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for brand in brands %}
+      <tr>
+        <th scope="row">{{ brand.id }}</th>
+        <td>{{ brand.brand }}</td>
+        <td>{{ brand.date_created }}</td>
+        <td><a class="btn btn-info btn-sm" href="/editbrand/{{ brand.id }}">Upravit značku</a></td>
+        <td><a id="brand-{{brand.id}}" data-id="{{ brand.id }}" class="btn btn-danger btn-sm delete-brand-button"href="/deletecategory/{{ brand.id }}">Smazat</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+</div>
+{% endblock content %}

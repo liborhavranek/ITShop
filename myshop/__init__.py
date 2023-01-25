@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_wtf.csrf import CSRFProtect
 from flask_assets import Environment, Bundle
 from flask_sqlalchemy import SQLAlchemy
 from os import path
@@ -8,8 +9,11 @@ from flask_login import LoginManager
 DB_NAME = "myshop.db"
 db = SQLAlchemy()
 
+
+
 login_manager = LoginManager()
 
+csrf = CSRFProtect()
 
 def create_app():
     app = Flask(__name__)
@@ -18,6 +22,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     db.init_app(app)
     
+    csrf.init_app(app)
     
     
     from .models import Costumer

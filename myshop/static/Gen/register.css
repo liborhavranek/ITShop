@@ -1,2 +1,191 @@
-h1 {
-  color: blue; }
+body, html {
+  height: 100%;
+  margin: 0; }
+
+.register-form-container {
+  background-image: url("../images/formbg8.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-attachment: fixed;
+  height: auto; }
+
+.login-form-container {
+  background-image: url("../images/formbg8.jpg");
+  /* Full height */
+  height: 100%;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover; }
+
+.form-div {
+  background-color: white;
+  width: 60%;
+  border-radius: 10%;
+  border-style: solid;
+  border-width: 10px;
+  border-color: #f2f6f9; }
+
+.costumer_email_check {
+  color: red; }
+
+.costumer_username_check {
+  color: red; }
+
+.costumer_phone_check {
+  color: red; }
+
+.check-tag {
+  color: green;
+  visibility: hidden; }
+
+.check-tag-username {
+  color: green;
+  visibility: hidden; }
+
+.check-tag-phone {
+  color: green;
+  visibility: hidden; }
+
+.flag {
+  width: 40px;
+  height: 40px; }
+
+.flag-dodej {
+  width: 40px;
+  height: 40px; }
+
+.check-tag-password-one {
+  color: green;
+  visibility: hidden; }
+
+.check-tag-password-two {
+  color: green;
+  visibility: hidden; }
+
+.costumer_password_one_check {
+  color: red; }
+
+.costumer_password_two_check {
+  color: red; }
+
+.check-tag-faktura-first-name {
+  color: green; }
+
+.costumer_faktura_first_name_check {
+  color: red; }
+
+.check-tag-faktura-last-name {
+  color: green; }
+
+.costumer_faktura_last_name_check {
+  color: red; }
+
+.check-tag-faktura-city {
+  color: green; }
+
+.costumer_faktura_city_check {
+  color: red; }
+
+.check-tag-faktura-zipcode {
+  color: green;
+  visibility: hidden; }
+
+.costumer_faktura_street_check {
+  color: red; }
+
+.costumer_faktura_zipcode_check {
+  color: red; }
+
+.check-tag-dodej-first-name {
+  color: green;
+  visibility: hidden; }
+
+.costumer_dodej_first_name_check {
+  color: red; }
+
+.check-tag-dodej-last-name {
+  color: green;
+  visibility: hidden; }
+
+.costumer_dodej_last_name_check {
+  color: red; }
+
+.check-tag-dodej-company {
+  color: green;
+  visibility: hidden; }
+
+.costumer_dodej_company_check {
+  color: red; }
+
+.check-tag-dodej-city {
+  color: green;
+  visibility: hidden; }
+
+.costumer_dodej_city_check {
+  color: red; }
+
+.check-tag-dodej-street {
+  color: green;
+  visibility: hidden; }
+
+.costumer_dodej_street_check {
+  color: red; }
+
+.check-tag-dodej-zipcode {
+  color: green;
+  visibility: hidden; }
+
+.costumer_dodej_zipcode_check {
+  color: red; }
+
+.check-tag-dodej-info {
+  color: green;
+  visibility: hidden; }
+
+.costumer_dodej_info_check {
+  color: red; }
+
+.check-tag-dodej-phone {
+  color: green;
+  visibility: hidden; }
+
+.costumer_dodej_phone_check {
+  color: red; }
+
+.check-tag-firma-ico {
+  color: green;
+  visibility: hidden; }
+
+.costumer_firma_ico_check {
+  color: red; }
+
+.check-tag-firma-dic {
+  color: green;
+  visibility: hidden; }
+
+.costumer_firma_dic_check {
+  color: red; }
+
+.check-tag-firma-bank-acc {
+  color: green;
+  visibility: hidden; }
+
+.costumer_firma_bank_acc_check {
+  color: red; }
+
+.costumer_firma_bank_number_check {
+  color: red; }
+
+.check-tag-firma-spec-symbol {
+  color: green;
+  visibility: hidden; }
+
+.shop-span {
+  font-size: 2vw; }
+
+.it-span {
+  font-size: 3vw; }
+
+.navbar {
+  background-color: #9EFFFF; }

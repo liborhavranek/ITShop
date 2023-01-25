@@ -1,11 +1,30 @@
 {% extends 'base.html '%}
     {% block content %} 
 
+
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-3">
+{% include "sidebar.html" %}
+</div>
+
+<div class="col-9">
+
     index
+    {{current_user.username}}
+    
+        <h1>Red text down</h1>
+        <p>Blue title</p>
+    
 
 
-    <h1>Red text down</h1>
-    <p>Blue title</p>
+</div>
+
+</div>
+</div>
+
+
 
 
     {%endblock content %}

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash
+from flask import Blueprint, render_template, request, flash, redirect
 from .models import Costumer
 from . import db
 from flask_login import login_user, logout_user, login_required, current_user
@@ -158,3 +158,34 @@ def check_username():
         return 'taken'
     else:
         return 'available'
+
+
+
+
+@auth.route("/login", methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form.get("email")
+        password = request.form.get("password")
+        print(email)
+        print(password)
+        costumer = Costumer.query.filter_by(email=email).first()
+        if costumer:
+            if check_password_hash(costumer.password, password):
+                flash("Úspěšně jsi se přihlásil", category='success')
+                login_user(costumer, remember=True)
+                return render_template("index.html", costumer=current_user)
+            else:
+                flash('Zadal jsi nesprávné heslo', category='error')
+        else:
+            flash('Email neexistuje', category='error')
+
+    return render_template("login.html", costumer=current_user)
+
+
+
+@auth.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect("products")

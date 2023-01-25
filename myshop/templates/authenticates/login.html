@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div class="container-fluid login-form-container d-flex justify-content-center">
+ 
+    
+
+    <div class="text-center form-div px-5 my-5">
+
+        <h1 class="registrace py-5">Přihlášení</h1>
+
+
+        <form method="POST">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input
+                type="text"
+                class="form-control"
+                id="email"
+                name="email"
+                aria-describedby="emailHelp"
+                placeholder="Přihlašovací email"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Heslo</label>
+              <input
+                type="password"
+                class="form-control"
+                name="password"
+                id="password"
+                placeholder="Přihlašovací heslo"
+              />
+            </div>
+            <button type="submit" class="btn btn-warning">Přihlásit</button>
+          </form>
+
+    </div>
+</div>
+
+
+
+
+</div>
+{% endblock content %}
