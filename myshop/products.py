@@ -78,3 +78,13 @@ def editbrand(id):
             'brand': brand.brand,
             })
     return render_template('editbrand.html', brand=brand)
+
+
+
+@products.route('/deletebrand/<int:id>', methods=['DELETE'])
+@login_required
+def deletebrand(id):
+    brand = Brand.query.filter_by(id=id).first()
+    db.session.delete(brand)
+    db.session.commit()
+    return jsonify({'message': 'Značka byla smazána'})

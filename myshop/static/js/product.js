@@ -74,3 +74,34 @@ $('#add-brand-form').on('submit', function(event) {
       }
     });
   });
+
+
+
+
+  $('#brands-list tbody').on('click', '.delete-brand-button', function(e) {
+    e.preventDefault();
+  
+    // Get the brand ID
+    var id = $(this).data('id');
+  
+    // Get the CSRF token from the form
+    var csrf_token = $('input[name=csrf_token]').val();
+  
+    // Send a DELETE request to the server
+    $.ajax({
+      url: '/deletebrand/' + id,
+      type: 'DELETE',
+      headers: { 'X-CSRFToken': csrf_token },
+      success: function(result) {
+        // Remove the brand from the table
+        $('#brand-' + id).closest('tr').remove();
+        // Insert the success message into the DOM
+        $('.messages').html(
+          '<div class="alert alert-success">' + result.message + '</div>'
+        );
+        // Fade out the message and then hide it
+        $('.messages .alert').fadeOut(4000).delay(4000).hide(0);
+      }
+    });
+  });
+  
