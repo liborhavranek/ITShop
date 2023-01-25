@@ -53,3 +53,28 @@ def addbrand():
                 'date_created': new_brand.date_created
             })
     return render_template('addbrand.html', brands=brands)
+
+
+
+@products.route('/editbrand/<int:id>', methods=['GET','POST'])
+@login_required
+def editbrand(id):
+    brand = Brand.query.filter_by(id=id).first()
+    if request.method == 'POST':
+        new_brand = request.form.get("edit_brand").title()
+        if len(new_brand) < 3:
+            flash("Značka musí mít minimálně 3 znaky!", category="danger")
+            return handle_response()
+        existing_brand = Brand.query.filter_by(brand=new_brand).first()
+        if existing_brand:
+            flash("Značka už existuje!", category="danger")
+            return handle_response()
+        else:
+            brand.brand = new_brand
+            db.session.commit()
+            flash('Značka byla upravena.', category='success')
+            return handle_response(data={
+            'flash_message': get_flashed_messages(with_categories=True),
+            'brand': brand.brand,
+            })
+    return render_template('editbrand.html', brand=brand)
