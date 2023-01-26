@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container-fluid register-form-container ">
+
+
+<div class="row">
+<div class="col-3"> 
+
+    {% include 'sidebar.html' %}
+</div>
+
+<div class="col-9 ">
+
+
+  <div class="addcolor-form py-5 px-5">
+ <h1 class="text-center">Přidat barvu</h1>
+<h3>{{current_user.username}}</h3>
+
+ <div class="addcolor-form-div w-75 py-5">
+<form  id="add-color-form" action="" method="POST" enctype="multipart/form-data" class="form-inline">
+  <div class="row">
+    <div class="col">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <input type="text" name="color" class="form-control">
+</div>
+<div class="col">
+  <input type="submit" value="Přidat barvu" class="btn btn-info tm-2">
+</div>
+</div>
+</form>
+</div>
+<div id="colors-list">
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Značka</th>
+        <th scope="col">Datum vytvoření</th>
+        <th scope="col">Editováno</th>
+        <th scope="col">Poslední edit</th>
+        <th scope="col">Upravit</th>
+        <th scope="col">Smazat</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for color in colors %}
+      <tr>
+        <th scope="row">{{ color.id }}</th>
+        <td>{{ color.color }}</td>
+        <td>{{ color.date_created.strftime('%H:%M, %d %b, %Y')  }}</td>
+        {% if color.edited == False %}
+        <td>NE</td>
+        {%else%}
+        <td>ANO</td>
+        {% endif %}
+
+        {% if color.date_edited == None %}
+        <td></td>
+        {% else %}
+        <td>{{color.date_edited.strftime('%H:%M, %d %b, %Y') }}</td>
+        {% endif %}
+        <td><a class="btn btn-info btn-sm" href="/editcolor/{{ color.id }}">Upravit</a></td>
+        <td><a id="color-{{color.id}}" data-id="{{ color.id }}" class="btn btn-danger btn-sm delete-color-button"href="/deletecolor/{{ color.id }}">Smazat</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+</div>
+{% endblock content %}

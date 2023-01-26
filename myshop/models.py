@@ -2,7 +2,6 @@ from . import db
 from datetime import datetime
 from flask_login import UserMixin
 
-
 class Costumer(db.Model, UserMixin):
     #  -------------------Uzivatel-------------------
     id = db.Column(db.Integer, primary_key=True)
@@ -48,6 +47,9 @@ class Costumer(db.Model, UserMixin):
     last_login = db.Column(db.DateTime, default=datetime.utcnow)
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     
+    def __repr__(self):
+        return '<Name %r>' % self.name
+    
     
 
 
@@ -73,3 +75,12 @@ class Category(db.Model):
     date_edited = db.Column(db.DateTime)
     edited = db.Column(db.Boolean, default=False)
     # products = db.relationship('Product', backref=db.backref('category', lazy=True), cascade="all, delete")
+    
+    
+class Color(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    color = db.Column(db.String(30), nullable=False, unique=True)
+    date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+    date_edited = db.Column(db.DateTime)
+    edited = db.Column(db.Boolean, default=False)
+    # products = db.relationship('Product', backref=db.backref('color', lazy=True), cascade="all, delete")

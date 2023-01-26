@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, request, flash, redirect, get_flas
 products = Blueprint('products', __name__, template_folder='templates/products')
 from flask_login import login_user, logout_user, login_required, current_user
 from datetime import datetime
-from .models import Brand, Category
+from .models import Brand, Category, Color
 from . import db
 
 @products.route('/products')
@@ -162,3 +162,70 @@ def deletecategory(id):
     db.session.delete(category)
     db.session.commit()
     return jsonify({'message': 'Kategorie byla smazána'})
+
+
+
+@products.route('/addcolor', methods=['GET', 'POST'])
+@login_required
+def addcolor():
+    colors = Color.query.all() 
+    if request.method == 'POST':
+        color = request.form.get("color").title()
+        if len(color) < 3:
+            flash("Barva musí mít minimálně 3 znaky", category="danger")
+            return handle_response()
+        existing_color = Color.query.filter_by(color=color).first()
+        if existing_color:
+            flash("Barva už existuje !", category="danger")
+            return handle_response()
+        else:
+            new_color = Color(color=color, date_created=datetime.now())
+            db.session.add(new_color)
+            db.session.commit()
+            flash("Barva byla přidána", category="success")
+            return handle_response(data={
+                'flash_message': get_flashed_messages(with_categories=True),
+                'color': new_color.color,
+                'id': new_color.id,
+                'date_created': new_color.date_created,
+                'date_edited': new_color.date_edited,
+                'edited': new_color.edited,
+            })
+    return render_template('addcolor.html', colors=colors)
+
+
+
+@products.route('/editcolor/<int:id>', methods=['GET','POST'])
+@login_required
+def editcolor(id):
+    color = Color.query.filter_by(id=id).first()
+    if request.method == 'POST':
+        new_color = request.form.get("edit_color").title()
+        if len(new_color) < 3:
+            flash("Barva musí mít minimálně 3 znaky!", category="danger")
+            return handle_response()
+        existing_color = Color.query.filter_by(color=new_color).first()
+        if existing_color:
+            flash("Barva už existuje!", category="danger")
+            return handle_response()
+        else:
+            color.color = new_color
+            color.date_edited = datetime.now()
+            color.edited = True
+            db.session.commit()
+            flash('Barva byla editována.', category='success')
+            return handle_response(data={
+            'flash_message': get_flashed_messages(with_categories=True),
+            'color': color.color,
+            })
+    return render_template('editcolor.html', color=color)
+  
+  
+  
+@products.route('/deletecolor/<int:id>', methods=['DELETE'])
+@login_required
+def deletecolor(id):
+    color = Color.query.filter_by(id=id).first()
+    db.session.delete(color)
+    db.session.commit()
+    return jsonify({'message': 'Barva byla smazána'})
