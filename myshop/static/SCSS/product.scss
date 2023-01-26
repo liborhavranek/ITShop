@@ -9,3 +9,48 @@
 .product-name-text{
     color: $check-form-red;
 }
+
+.check-product-price{
+    color: $check-form-color;
+    visibility: hidden;
+}
+
+.check-discount-input{
+    color: $check-form-color;
+    visibility: hidden;
+}
+
+
+.product-stock-check{
+    color: $check-form-color;
+    visibility: hidden;
+}
+
+.product-size-check{
+    color: $check-form-color;
+    visibility: hidden;
+}
+
+.product-brand-check{
+    color: $check-form-color;
+    visibility: hidden;
+}
+
+.product-category-check{
+    color: $check-form-color;
+    visibility: hidden;
+}
+
+.product-color-check{
+    color: $check-form-color;
+    visibility: hidden;
+}
+
+.product-description-check{
+    color: $check-form-color;
+    visibility: hidden;
+}
+
+.product-description-text{
+    color: $check-form-red;
+}

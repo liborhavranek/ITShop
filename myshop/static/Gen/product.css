@@ -4,3 +4,38 @@
 
 .product-name-text {
   color: red; }
+
+.check-product-price {
+  color: green;
+  visibility: hidden; }
+
+.check-discount-input {
+  color: green;
+  visibility: hidden; }
+
+.product-stock-check {
+  color: green;
+  visibility: hidden; }
+
+.product-size-check {
+  color: green;
+  visibility: hidden; }
+
+.product-brand-check {
+  color: green;
+  visibility: hidden; }
+
+.product-category-check {
+  color: green;
+  visibility: hidden; }
+
+.product-color-check {
+  color: green;
+  visibility: hidden; }
+
+.product-description-check {
+  color: green;
+  visibility: hidden; }
+
+.product-description-text {
+  color: red; }

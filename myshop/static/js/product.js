@@ -342,7 +342,7 @@ $('#add-color-form').on('submit', function(event) {
   });
 
 
-
+// ---------------------------- product name control -----------------------------------
 
 $('.check-product-name').css('visibility', 'hidden');
 $('#product-name-input').on('input', function(){
@@ -376,3 +376,141 @@ $('#product-name-input').on('input', function(){
         }
       });
     });
+
+
+// ----------------------------------- product price -------------------------------------
+
+$('#product-price-input').on('input', function(){
+        var product_price = $(this).val();
+        $('.check-product-price').css('visibility', 'hidden');
+        if (product_price.length > 0){
+            $('.check-product-price').css('visibility', 'visible');
+        }else{
+            $('.check-product-price').css('visibility', 'hidden');
+        }
+        });
+
+
+// --------------------------------allow only number input ------------------------------------
+
+
+
+function onlyNumber(input) {
+    input.value = input.value.replace(/[^0-9]/g, '');
+  }
+
+
+// -------------------------------discount input -------------------------------------
+
+$('#product-discount-input').on('input', function(){
+    var product_price = $(this).val();
+    $('.check-discount-input').css('visibility', 'hidden');
+    if (product_price.length > 0){
+        $('.check-discount-input').css('visibility', 'visible');
+    }else{
+        $('.check-discount-input').css('visibility', 'hidden');
+    }
+    });
+
+// best for input only number in the form 
+
+
+    function maxDiscountValue(input) {
+        input.value = input.value.replace(/[^0-9]/g, '');
+        if (input.value > 100) {
+          input.value = 100;
+        }
+      }
+
+// --------------------------------stock input ---------------------------------------
+
+$('#product-stock-input').on('input', function(){
+    var product_price = $(this).val();
+    $('.product-stock-check').css('visibility', 'hidden');
+    if (product_price.length > 0){
+        $('.product-stock-check').css('visibility', 'visible');
+    }else{
+        $('.product-stock-check').css('visibility', 'hidden');
+    }
+    });
+
+
+// ---------------------------size input ---------------------------------------
+
+
+$('#product-size-input').on('input', function(){
+    var product_price = $(this).val();
+    $('.product-size-check').css('visibility', 'hidden');
+    if (product_price.length > 0){
+        $('.product-size-check').css('visibility', 'visible');
+    }else{
+        $('.product-size-check').css('visibility', 'hidden');
+    }
+    });
+
+
+// ---------------------- color, brand, category, description -------------------------
+
+
+$('#product-description-input').on('input', function(){
+    var product_description = $(this).val();
+    $('.product-size-check').css('visibility', 'hidden');
+    if (product_description.length === 0) {
+        $('.product-description-text').text("Popis musí být dlouhý alespoň 20 znaků.").hide();
+    }
+    else if (product_description.length > 20){
+        $('.product-color-check').css('visibility', 'visible');
+        $('.product-category-check').css('visibility', 'visible');
+        $('.product-brand-check').css('visibility', 'visible');
+        $('.product-description-check').css('visibility', 'visible');
+        $('.product-description-text').text("Popis musí být dlouhý alespoň 20 znaků.").hide();
+    }else{
+        $('.product-color-check').css('visibility', 'hidden');
+        $('.product-category-check').css('visibility', 'hidden');
+        $('.product-brand-check').css('visibility', 'hidden');
+        $('.product-description-check').css('visibility', 'hidden');
+        $('.product-description-text').text("Popis musí být dlouhý alespoň 20 znaků.").show();
+    }
+    });
+
+
+
+    $('#add-product-form').on('submit', function(event) {
+        event.preventDefault();
+        var formData = $(this).serialize();
+        $.ajax({
+          url: '/addproduct',
+          type: 'POST',
+          data: formData,
+          success: function(data) {
+            // Insert the flash message into the DOM
+            $('.messages').html(
+              '<div class="alert alert-' + data.flash_message[0][0] + '">' + data.flash_message[0][1] + '</div>'
+            );
+            // Fade out the message and then hide it
+            $('.messages .alert').fadeOut(4000).delay(4000).hide(0);
+            // If the brand was added successfully, insert it into the table
+            if (data.flash_message[0][0] === "success") {
+              var newRow = '<tr><th scope="row">' + data.id + '</th>' +
+                           '<td>' + data.product + '</td>' +
+                           '<td>' + data.price + '</td>' +
+                           '<td>' + data.discount +'</td>' +
+                           '<td>' + data.stock +'</td>' +
+                           '<td><a class="btn btn-info btn-sm" href="/editbrand/' + data.id + '">Upravit</td>' +
+                           '<td><a id="brand-' + data.id + '" data-id="' + data.id + '" class="btn btn-danger btn-sm delete-brand-button"href="/deletecategory/' + data.id + '">Smazat</a></td>';
+              // Append the new row to the table body
+              $('#products-list tbody').append(newRow);
+            }
+            // Reset the form
+            $('#add-product-form')[0].reset();
+          },
+          error: function(data) {
+            // Insert the flash message into the DOM
+            $('.messages').html(
+              '<div class="alert alert-' + data.flash_message[0][0] + '">' + data.flash_message[0][1] + '</div>'
+            );
+            // Fade out the message and then hide it
+            $('.messages .alert').fadeOut(4000).delay(4000).hide(0);
+          }
+        });
+      });

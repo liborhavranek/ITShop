@@ -27,7 +27,7 @@
         <label for="product" class="form-label">Název:</label>
         </div>
         <div class="col-9">
-        <input id="product-name-input" type="text" name="product" class="form-control">
+        <input id="product-name-input" type="text" name="product" class="form-control" placeholder="Název produktu">
         <div class="product-name-text text-start" id="product-name-text-id"><small class=" productname-used"></small></div>
         </div>
         <div class="col-1 d-flex align-items-center check-product-name"><i class="fa-sharp fa-solid fa-circle-check fa-xl"></i></div>
@@ -40,16 +40,16 @@
         <label for="price" class="form-label">Cena:</label>
             </div>
             <div class="col-3">
-        <input type="text" name="price" class="form-control">
+        <input id="product-price-input" type="text" name="price" class="form-control" placeholder="Cena" oninput="onlyNumber(this)">
     </div>
-    <div class="col-1 d-flex align-items-center"><i class="fa-sharp fa-solid fa-circle-check fa-xl"></i></div>
+    <div class="col-1 d-flex align-items-center check-product-price"><i class="fa-sharp fa-solid fa-circle-check fa-xl"></i></div>
         <div class="col-2 d-flex align-items-center">
         <label for="discount" class="form-label">Sleva:</label>
         </div>
         <div class="col-3">
-        <input type="text" name="discount" class="form-control">
+        <input id="product-discount-input" type="text" name="discount" class="form-control" placeholder="Sleva(nepoviné)" pattern="[0-9]*" max="100" oninput="maxDiscountValue(this)">
     </div>
-        <div class="col-1 d-flex align-items-center">
+        <div class="col-1 d-flex align-items-center check-discount-input">
             <i class="fa-sharp fa-solid fa-circle-check fa-xl"></i>
         </div>
         </div>
@@ -62,17 +62,17 @@
         <label for="stock" class="form-label">Na skladě:</label>
     </div>
     <div class="col-3">
-        <input type="text" name="stock" class="form-control">
+        <input type="text" id="product-stock-input" name="stock" class="form-control" oninput="onlyNumber(this)" placeholder="Počet kusů">
     </div>
-    <div class="col-1 d-flex align-items-center"><i class="fa-sharp fa-solid fa-circle-check fa-xl"></i></div>
+    <div class="col-1 d-flex align-items-center product-stock-check"><i class="fa-sharp fa-solid fa-circle-check fa-xl"></i></div>
 
     <div class="col-2 d-flex align-items-center">
         <label for="size" class="form-label">Velikost:</label>
     </div>
     <div class="col-3">
-        <input type="text" name="size" class="form-control">
+        <input id="product-size-input" placeholder="Velikost" type="text" name="size" class="form-control">
     </div>
-    <div class="col-1 d-flex align-items-center">
+    <div class="col-1 d-flex align-items-center product-size-check">
         <i class="fa-sharp fa-solid fa-circle-check fa-xl"></i>
     </div>
        
@@ -91,7 +91,7 @@
           {% endfor %}
         </select>
     </div>
-    <div class="col-1 d-flex align-items-center">
+    <div class="col-1 d-flex align-items-center product-brand-check">
         <i class="fa-sharp fa-solid fa-circle-check fa-xl"></i>
     </div>
 
@@ -106,7 +106,7 @@
             {% endfor %}
         </select>
     </div>
-    <div class="col-1 d-flex align-items-center">
+    <div class="col-1 d-flex align-items-center product-category-check">
         <i class="fa-sharp fa-solid fa-circle-check fa-xl"></i>
     </div>
 
@@ -128,7 +128,7 @@
         </select>
     </div>
 
-    <div class="col-1 d-flex align-items-center">
+    <div class="col-1 d-flex align-items-center product-color-check">
         <i class="fa-sharp fa-solid fa-circle-check fa-xl"></i>
     </div>
 
@@ -148,10 +148,11 @@
 </div>
 
 <div class="col-9">
-<textarea name="description" id="description" rows="5" class="form-control" placeholder="Popis produktu"></textarea>
+<textarea name="description" id="product-description-input" rows="5" class="form-control" placeholder="Popis produktu"></textarea>
+<div class="product-description-text text-start" id="product-description-text"><small class=" productname-used"></small></div>
 </div>
 
-<div class="col-1 d-flex align-items-center">
+<div class="col-1 d-flex align-items-center product-description-check">
     <i class="fa-sharp fa-solid fa-circle-check fa-xl"></i>
 </div>
 </div>
@@ -166,53 +167,57 @@
     
       </form>
 </div>
-<div id="categories-list">
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Product</th>
-        <th scope="col">Cena</th>
-        <th scope="col">Sleva</th>
-        <th scope="col">Sklad</th>
-        <th scope="col">Prodáno</th>
-        <th scope="col">Velikost</th>
-        <th scope="col">Značka</th>
-        <th scope="col">Kategorie</th>
-        <th scope="col">Barva</th>
-        <th scope="col">Upravit</th>
-        <th scope="col">Smazat</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for product in products %}
-      <tr>
-        <th scope="row">{{ product.id }}</th>
-        <td>{{ product.product }}</td>
-        <td>{{ product.price }}</td>
-        <td>{{ product.discount }}</td>
-        <td>{{ product.stock }}</td>
-        <td>{{ product.sold }}</td>
-        <td>{{ product.size }}</td>
-        <td>{{ product.brand_id }}</td>
-        <td>{{ product.category_id }}</td>
-        <td>{{ product.color_id }}</td>
-        <td><a class="btn btn-info btn-sm" href="/editcategory/{{ product.id }}">Upravit</a></td>
-        <td><a id="category-{{product.id}}" data-id="{{ product.id }}" class="btn btn-danger btn-sm delete-category-button"href="/deletecategory/{{ product.id }}">Smazat</a></td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+
 
 </div>
 
 
-</div>
+
+
+
 
 </div>
 
+
+<div id="products-list">
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Product</th>
+          <th scope="col">Cena</th>
+          <th scope="col">Sleva</th>
+          <th scope="col">Zasoby</th>
+          <th scope="col">Upravit</th>
+          <th scope="col">Smazat</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for product in products %}
+        <tr>
+          <th scope="row">{{ product.id }}</th>
+          <td>{{ product.product }}</td>
+          <td>{{ product.price }}</td>
+          <td>{{ product.discount}}</td>
+          <td>{{ product.stock }}</td>
+          <td><a class="btn btn-info btn-sm" href="/editcategory/{{ product.id }}">Upravit</a></td>
+          <td><a id="category-{{product.id}}" data-id="{{ product.id }}" class="btn btn-danger btn-sm delete-category-button"href="/deletecategory/{{ product.id }}">Smazat</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  
+  </div>
+
+
+
+
+
 </div>
+
+
 
 
 </div>

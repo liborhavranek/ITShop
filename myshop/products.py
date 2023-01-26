@@ -249,11 +249,14 @@ def addproduct():
         category_id = request.form.get('category')
         color_id = request.form.get('category')
         brand_id = request.form.get('brand')
-        if len(product) < 3:
-            flash("Produkt musí mít minimálně 3 znaky", category="danger")
         existing_product = Product.query.filter_by(product=product).first()
+        int_price = int(price)
         if existing_product:
             flash("Produkt už existuje !", category="danger")
+        if len(product) < 3:
+            flash("Produkt musí mít minimálně 3 znaky", category="danger")
+        elif int_price < 1:
+            flash("Cena musí být alespoň jedna koruna", category='danger')
         else:
             brand = Brand.query.get(brand_id)
             new_product= Product(product=product,
@@ -262,11 +265,24 @@ def addproduct():
                                  stock=stock,
                                  size=size,
                                  description=description,
+                                 pub_date=datetime.now(),
                                  category_id=category_id,
                                  color_id=color_id,
                                  brand=brand)
             db.session.add(new_product)
             db.session.commit()
+            flash('Produkt byl přidán', category='success')
+            return handle_response(data={
+                'flash_message': get_flashed_messages(with_categories=True),
+                'id': new_product.id,
+                'product': new_product.product,
+                'price': new_product.price,
+                'discount': new_product.discount,
+                'stock': new_product.stock,
+                'size': new_product.size,
+                'category_id': new_product.category_id,
+                'color_id': new_product.color_id,
+            })
     return render_template('addproduct.html', products=products, brands=brands, categories=categories, colors=colors)
 
 
