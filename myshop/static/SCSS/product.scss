@@ -1,0 +1,11 @@
+@import 'variables';
+
+.check-product-name{
+    color: $check-form-color;
+    visibility: hidden;
+}
+
+
+.product-name-text{
+    color: $check-form-red;
+}

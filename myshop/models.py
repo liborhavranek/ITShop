@@ -64,7 +64,7 @@ class Brand(db.Model):
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     date_edited = db.Column(db.DateTime)
     edited = db.Column(db.Boolean, default=False)
-    # products = db.relationship('Product', backref=db.backref('brand', lazy=True), cascade="all, delete")
+    products = db.relationship('Product', backref=db.backref('brand', lazy=True), cascade="all, delete")
     
     
     
@@ -74,7 +74,7 @@ class Category(db.Model):
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     date_edited = db.Column(db.DateTime)
     edited = db.Column(db.Boolean, default=False)
-    # products = db.relationship('Product', backref=db.backref('category', lazy=True), cascade="all, delete")
+    products = db.relationship('Product', backref=db.backref('category', lazy=True), cascade="all, delete")
     
     
 class Color(db.Model):
@@ -83,4 +83,33 @@ class Color(db.Model):
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     date_edited = db.Column(db.DateTime)
     edited = db.Column(db.Boolean, default=False)
-    # products = db.relationship('Product', backref=db.backref('color', lazy=True), cascade="all, delete")
+    products = db.relationship('Product', backref=db.backref('color', lazy=True), cascade="all, delete")
+    
+    
+    
+class Product(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    product = db.Column(db.String(80), nullable=False)
+    price = db.Column(db.Numeric(10,2), nullable=False)
+    discount = db.Column(db.Integer, default=0)
+    stock = db.Column(db.Integer, nullable=False)
+    sold = db.Column(db.Integer, default=0)
+    size = db.Column(db.Text, nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    pub_date = db.Column(db.DateTime, nullable=False,default=datetime.utcnow)
+    
+    
+    
+    brand_id = db.Column(db.Integer, db.ForeignKey('brand.id', ondelete="CASCADE"), nullable=True)
+    category_id = db.Column(db.Integer, db.ForeignKey('category.id', ondelete="CASCADE"), nullable=True)
+    color_id = db.Column(db.Integer, db.ForeignKey('color.id', ondelete="CASCADE"), nullable=True)
+    
+    
+    
+    # image_1 = db.Column(db.String(150), nullable=True, default='image.jpg')
+    # image_2 = db.Column(db.String(150), nullable=True, default='image.jpg')
+    # image_3 = db.Column(db.String(150), nullable=True, default='image.jpg')
+    
+    
+# pridat rating, recenze, categorie, brand, udelat color s id brand, kategorie
+    

@@ -340,3 +340,39 @@ $('#add-color-form').on('submit', function(event) {
       }
     });
   });
+
+
+
+
+$('.check-product-name').css('visibility', 'hidden');
+$('#product-name-input').on('input', function(){
+    var productname = $(this).val();
+    var csrf_token = $('input[name=csrf_token]').val();
+    $('.product-name-text').hide();
+    if (productname.length === 0) { 
+        $('.check-product-name').css('visibility', 'hidden');
+        $('.product-name-text').text("Produkt musí mít alespoň 3 znaky.").hide();
+        return; 
+    }
+
+    if (productname.length <= 2) { 
+        $('.check-product-name').css('visibility', 'hidden');
+        $('.product-name-text').text("Produkt musí mít alespoň 3 znaky.").show();
+        return; 
+    }
+
+      $.ajax({
+        url: '/check-product-name',
+        method: 'POST',
+        headers: { 'X-CSRFToken': csrf_token },
+        data: {'product': productname},
+        success: function(data) {
+            if (data == 'taken' ) {
+                $('.product-name-text').text("Tento produkt je již v databázi.").show();
+                $('.check-product-name').css('visibility', 'hidden');
+            } else if (productname.length >= 3){
+                $('.check-product-name').css('visibility', 'visible');
+            }
+        }
+      });
+    });

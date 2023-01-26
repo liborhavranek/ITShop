@@ -60,6 +60,11 @@ def create_app():
             'SCSS/register.scss',
             filters='libsass',
             output='Gen/register.css',
+  ),
+  'product_style': Bundle(
+            'SCSS/product.scss',
+            filters='libsass',
+            output='Gen/product.css',
   )
 } 
     assets.register(bundles)

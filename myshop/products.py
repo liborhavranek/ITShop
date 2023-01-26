@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, request, flash, redirect, get_flas
 products = Blueprint('products', __name__, template_folder='templates/products')
 from flask_login import login_user, logout_user, login_required, current_user
 from datetime import datetime
-from .models import Brand, Category, Color
+from .models import Brand, Category, Color, Product
 from . import db
 
 @products.route('/products')
@@ -229,3 +229,54 @@ def deletecolor(id):
     db.session.delete(color)
     db.session.commit()
     return jsonify({'message': 'Barva byla smazána'})
+
+
+
+@products.route('/addproduct/', methods=['GET', 'POST'])
+@login_required
+def addproduct():
+    brands = Brand.query.all()
+    categories = Category.query.all()
+    colors = Color.query.all()
+    products = Product.query.all() 
+    if request.method == 'POST':
+        product = request.form.get("product").title()
+        price = request.form.get('price')
+        discount = request.form.get('discount')
+        stock = request.form.get('stock')
+        size = request.form.get('size')
+        description = request.form.get('description')
+        category_id = request.form.get('category')
+        color_id = request.form.get('category')
+        brand_id = request.form.get('brand')
+        if len(product) < 3:
+            flash("Produkt musí mít minimálně 3 znaky", category="danger")
+        existing_product = Product.query.filter_by(product=product).first()
+        if existing_product:
+            flash("Produkt už existuje !", category="danger")
+        else:
+            brand = Brand.query.get(brand_id)
+            new_product= Product(product=product,
+                                 price=price,
+                                 discount=discount,
+                                 stock=stock,
+                                 size=size,
+                                 description=description,
+                                 category_id=category_id,
+                                 color_id=color_id,
+                                 brand=brand)
+            db.session.add(new_product)
+            db.session.commit()
+    return render_template('addproduct.html', products=products, brands=brands, categories=categories, colors=colors)
+
+
+
+@products.route('/check-product-name', methods=['POST'])
+def check_product_name():
+    product = request.form['product']
+    name = Product.query.filter_by(product=product).first()
+    if name:
+        return 'taken'
+    else:
+        return 'available'
+    

@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container-fluid register-form-container ">
+
+
+<div class="row">
+<div class="col-3"> 
+
+    {% include 'sidebar.html' %}
+</div>
+
+<div class="col-9 ">
+
+
+  <div class="addcategory-form py-5 px-5 ">
+ <h1 class="text-center">Přidat produkt</h1>
+
+ <div class="addcategory-form-div w-75 py-5 mx-auto">
+    <form  id="add-product-form" action="" method="POST" enctype="multipart/form-data" class="form-inline">
+
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+
+        <div class="row">
+            <div class="col-2 d-flex align-items-center">
+        <label for="product" class="form-label">Název:</label>
+        </div>
+        <div class="col-9">
+        <input id="product-name-input" type="text" name="product" class="form-control">
+        <div class="product-name-text text-start" id="product-name-text-id"><small class=" productname-used"></small></div>
+        </div>
+        <div class="col-1 d-flex align-items-center check-product-name"><i class="fa-sharp fa-solid fa-circle-check fa-xl"></i></div>
+        </div>
+
+        <br>
+
+        <div class="row">
+        <div class="col-2 d-flex align-items-center">
+        <label for="price" class="form-label">Cena:</label>
+            </div>
+            <div class="col-3">
+        <input type="text" name="price" class="form-control">
+    </div>
+    <div class="col-1 d-flex align-items-center"><i class="fa-sharp fa-solid fa-circle-check fa-xl"></i></div>
+        <div class="col-2 d-flex align-items-center">
+        <label for="discount" class="form-label">Sleva:</label>
+        </div>
+        <div class="col-3">
+        <input type="text" name="discount" class="form-control">
+    </div>
+        <div class="col-1 d-flex align-items-center">
+            <i class="fa-sharp fa-solid fa-circle-check fa-xl"></i>
+        </div>
+        </div>
+
+        <br>
+
+
+        <div class="row">
+            <div class="col-2 d-flex align-items-center">
+        <label for="stock" class="form-label">Na skladě:</label>
+    </div>
+    <div class="col-3">
+        <input type="text" name="stock" class="form-control">
+    </div>
+    <div class="col-1 d-flex align-items-center"><i class="fa-sharp fa-solid fa-circle-check fa-xl"></i></div>
+
+    <div class="col-2 d-flex align-items-center">
+        <label for="size" class="form-label">Velikost:</label>
+    </div>
+    <div class="col-3">
+        <input type="text" name="size" class="form-control">
+    </div>
+    <div class="col-1 d-flex align-items-center">
+        <i class="fa-sharp fa-solid fa-circle-check fa-xl"></i>
+    </div>
+       
+    </div>
+
+    <br>
+
+<div class="row">
+        <div class="col-2 d-flex align-items-center">
+        <label for="brand">Značka:</label>
+    </div>
+        <div class="col-3">
+        <select name="brand" id="brand" class="form-control" required>
+          {% for brand in brands %}
+          <option value="{{ brand.id }}">{{ brand.brand }}</option>
+          {% endfor %}
+        </select>
+    </div>
+    <div class="col-1 d-flex align-items-center">
+        <i class="fa-sharp fa-solid fa-circle-check fa-xl"></i>
+    </div>
+
+        <div class="col-2 d-flex align-items-center">
+        <label for="category">Kategorie:</label>
+    </div>
+
+    <div class="col-3">
+        <select name="category" id="category" class="form-control" required>
+            {% for category in categories %}
+            <option value="{{ category.id }}">{{ category.category }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-1 d-flex align-items-center">
+        <i class="fa-sharp fa-solid fa-circle-check fa-xl"></i>
+    </div>
+
+
+</div>
+
+<br>
+
+<div class="row"> 
+<div class="col-2 d-flex align-items-center">
+        <label for="color">Barva:</label>
+    </div>
+
+    <div class="col-9">
+        <select name="color" id="color" class="form-control" required>
+            {% for color in colors %}
+            <option value="{{ color.id }}">{{ color.color }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="col-1 d-flex align-items-center">
+        <i class="fa-sharp fa-solid fa-circle-check fa-xl"></i>
+    </div>
+
+    </div>
+
+
+
+
+
+
+<br>
+
+<div class="row">
+
+<div class="col-2 d-flex align-items-center">
+    <label for="category">Popis:</label>
+</div>
+
+<div class="col-9">
+<textarea name="description" id="description" rows="5" class="form-control" placeholder="Popis produktu"></textarea>
+</div>
+
+<div class="col-1 d-flex align-items-center">
+    <i class="fa-sharp fa-solid fa-circle-check fa-xl"></i>
+</div>
+</div>
+
+
+
+
+
+
+            <br>
+        <input type="submit" value="Přidat produkt" class="btn btn-info tm-2">
+    
+      </form>
+</div>
+<div id="categories-list">
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Product</th>
+        <th scope="col">Cena</th>
+        <th scope="col">Sleva</th>
+        <th scope="col">Sklad</th>
+        <th scope="col">Prodáno</th>
+        <th scope="col">Velikost</th>
+        <th scope="col">Značka</th>
+        <th scope="col">Kategorie</th>
+        <th scope="col">Barva</th>
+        <th scope="col">Upravit</th>
+        <th scope="col">Smazat</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for product in products %}
+      <tr>
+        <th scope="row">{{ product.id }}</th>
+        <td>{{ product.product }}</td>
+        <td>{{ product.price }}</td>
+        <td>{{ product.discount }}</td>
+        <td>{{ product.stock }}</td>
+        <td>{{ product.sold }}</td>
+        <td>{{ product.size }}</td>
+        <td>{{ product.brand_id }}</td>
+        <td>{{ product.category_id }}</td>
+        <td>{{ product.color_id }}</td>
+        <td><a class="btn btn-info btn-sm" href="/editcategory/{{ product.id }}">Upravit</a></td>
+        <td><a id="category-{{product.id}}" data-id="{{ product.id }}" class="btn btn-danger btn-sm delete-category-button"href="/deletecategory/{{ product.id }}">Smazat</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+</div>
+{% endblock content %}
