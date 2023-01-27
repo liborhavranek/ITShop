@@ -247,8 +247,19 @@ def addproduct():
         size = request.form.get('size')
         description = request.form.get('description')
         category_id = request.form.get('category')
-        color_id = request.form.get('category')
+        color_id = request.form.get('color')
         brand_id = request.form.get('brand')
+        
+        product_color = Color.query.filter_by(id=color_id).first()
+        color = product_color.color
+        
+        product_brand = Brand.query.filter_by(id=brand_id).first()
+        brand = product_brand.brand
+        
+        product_category = Category.query.filter_by(id=category_id).first()
+        category = product_category.category
+        
+        
         existing_product = Product.query.filter_by(product=product).first()
         int_price = int(price)
         if existing_product:
@@ -258,7 +269,7 @@ def addproduct():
         elif int_price < 1:
             flash("Cena musí být alespoň jedna koruna", category='danger')
         else:
-            brand = Brand.query.get(brand_id)
+            
             new_product= Product(product=product,
                                  price=price,
                                  discount=discount,
@@ -268,7 +279,8 @@ def addproduct():
                                  pub_date=datetime.now(),
                                  category_id=category_id,
                                  color_id=color_id,
-                                 brand=brand)
+                                 brand_id=brand_id,
+                                 )
             db.session.add(new_product)
             db.session.commit()
             flash('Produkt byl přidán', category='success')
@@ -282,6 +294,10 @@ def addproduct():
                 'size': new_product.size,
                 'category_id': new_product.category_id,
                 'color_id': new_product.color_id,
+                'brand_id':new_product.brand_id,
+                'color': color,
+                'brand': brand,
+                'category':category,
             })
     return render_template('addproduct.html', products=products, brands=brands, categories=categories, colors=colors)
 
@@ -296,3 +312,42 @@ def check_product_name():
     else:
         return 'available'
     
+
+
+# @products.route('/editproduct/<int:id>', methods=['GET', 'POST'])
+# @login_required
+# def editproduct(id):
+#     products = Product.query.filter_by(id=id).first()
+#     if request.method == 'POST':
+#         product = request.form.get("product").title()
+#         price = request.form.get('price')
+#         discount = request.form.get('discount')
+#         stock = request.form.get('stock')
+#         size = request.form.get('size')
+#         description = request.form.get('description')
+#         category_id = request.form.get('category')
+#         color_id = request.form.get('category')
+#         brand_id = request.form.get('brand')
+#         existing_product = Product.query.filter_by(product=product).first()
+#         int_price = int(price)
+#         if existing_product:
+#             flash("Produkt už existuje !", category="danger")
+#         if len(product) < 3:
+#             flash("Produkt musí mít minimálně 3 znaky", category="danger")
+#         elif int_price < 1:
+#             flash("Cena musí být alespoň jedna koruna", category='danger')
+#         else:
+            
+#             flash('Produkt byl přidán', category='success')
+#             return handle_response(data={
+#                 'flash_message': get_flashed_messages(with_categories=True),
+#                 'id': new_product.id,
+#                 'product': new_product.product,
+#                 'price': new_product.price,
+#                 'discount': new_product.discount,
+#                 'stock': new_product.stock,
+#                 'size': new_product.size,
+#                 'category_id': new_product.category_id,
+#                 'color_id': new_product.color_id,
+#             })
+#     return render_template('addproduct.html', products=products, brands=brands, categories=categories, colors=colors)

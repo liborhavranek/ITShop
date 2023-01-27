@@ -494,7 +494,8 @@ $('#product-description-input').on('input', function(){
               var newRow = '<tr><th scope="row">' + data.id + '</th>' +
                            '<td>' + data.product + '</td>' +
                            '<td>' + data.price + '</td>' +
-                           '<td>' + data.discount +'</td>' +
+                           '<td>' + data.category +'</td>' +
+                           '<td>' + data.brand +'</td>' +
                            '<td>' + data.stock +'</td>' +
                            '<td><a class="btn btn-info btn-sm" href="/editbrand/' + data.id + '">Upravit</td>' +
                            '<td><a id="brand-' + data.id + '" data-id="' + data.id + '" class="btn btn-danger btn-sm delete-brand-button"href="/deletecategory/' + data.id + '">Smazat</a></td>';
@@ -503,6 +504,15 @@ $('#product-description-input').on('input', function(){
             }
             // Reset the form
             $('#add-product-form')[0].reset();
+            $('.product-color-check').css('visibility', 'hidden');
+            $('.product-category-check').css('visibility', 'hidden');
+            $('.product-brand-check').css('visibility', 'hidden');
+            $('.product-description-check').css('visibility', 'hidden');
+            $('.check-product-name').css('visibility', 'hidden');
+            $('.check-product-price').css('visibility', 'hidden');
+            $('.check-discount-input').css('visibility', 'hidden');
+            $('.product-stock-check').css('visibility', 'hidden');
+            $('.product-size-check').css('visibility', 'hidden');
           },
           error: function(data) {
             // Insert the flash message into the DOM

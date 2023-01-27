@@ -188,7 +188,8 @@
           <th scope="col">ID</th>
           <th scope="col">Product</th>
           <th scope="col">Cena</th>
-          <th scope="col">Sleva</th>
+          <th scope="col">Kategorie</th>
+          <th scope="col">Značka</th>
           <th scope="col">Zasoby</th>
           <th scope="col">Upravit</th>
           <th scope="col">Smazat</th>
@@ -200,7 +201,8 @@
           <th scope="row">{{ product.id }}</th>
           <td>{{ product.product }}</td>
           <td>{{ product.price }}</td>
-          <td>{{ product.discount}}</td>
+          <td>{{ product.category.category}}</td>
+          <td>{{ product.brand.brand }}</td>
           <td>{{ product.stock }}</td>
           <td><a class="btn btn-info btn-sm" href="/editcategory/{{ product.id }}">Upravit</a></td>
           <td><a id="category-{{product.id}}" data-id="{{ product.id }}" class="btn btn-danger btn-sm delete-category-button"href="/deletecategory/{{ product.id }}">Smazat</a></td>
