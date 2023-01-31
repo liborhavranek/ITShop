@@ -14,20 +14,20 @@
 
 
   <div class="addcategory-form py-5 px-5 ">
- <h1 class="text-center">Přidat produkt</h1>
+ <h1 class="text-center">Edit produkt</h1>
 
  <div class="addcategory-form-div w-75 py-5 mx-auto">
-    <form  id="add-product-form" action="" method="POST" enctype="multipart/form-data" class="form-inline">
+    <form  id="edit-product-form" action="" method="POST" enctype="multipart/form-data" class="form-inline">
 
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-
+        <input type="hidden" name="value_id_for_jquery" value="{{product.id}}">
 
         <div class="row">
             <div class="col-2 d-flex align-items-center">
         <label for="product" class="form-label">Název:</label>
         </div>
         <div class="col-9">
-        <input id="product-name-input" type="text" name="product" class="form-control" placeholder="Název produktu">
+        <input id="product-name-input" type="text" name="product" class="form-control" placeholder="Název produktu" value="{{product.product}}">
         <div class="product-name-text text-start" id="product-name-text-id"><small class=" productname-used"></small></div>
         </div>
         <div class="col-1 d-flex align-items-center check-product-name"><i class="fa-sharp fa-solid fa-circle-check fa-xl"></i></div>
@@ -40,14 +40,14 @@
         <label for="price" class="form-label">Cena:</label>
             </div>
             <div class="col-3">
-        <input id="product-price-input" type="text" name="price" class="form-control" placeholder="Cena" oninput="onlyNumber(this)">
+        <input id="product-price-input" type="text" name="price" class="form-control" placeholder="Cena" oninput="onlyNumber(this)" value="{{product.price|int}}">
     </div>
     <div class="col-1 d-flex align-items-center check-product-price"><i class="fa-sharp fa-solid fa-circle-check fa-xl"></i></div>
         <div class="col-2 d-flex align-items-center">
         <label for="discount" class="form-label">Sleva:</label>
         </div>
         <div class="col-3">
-        <input id="product-discount-input" type="text" name="discount" class="form-control" placeholder="Sleva(nepoviné)" pattern="[0-9]*" max="100" oninput="maxDiscountValue(this)">
+        <input id="product-discount-input" type="text" name="discount" class="form-control" placeholder="Sleva(nepoviné)" pattern="[0-9]*" max="100" oninput="maxDiscountValue(this)" value="{{product.discount}}">
     </div>
         <div class="col-1 d-flex align-items-center check-discount-input">
             <i class="fa-sharp fa-solid fa-circle-check fa-xl"></i>
@@ -62,7 +62,7 @@
         <label for="stock" class="form-label">Na skladě:</label>
     </div>
     <div class="col-3">
-        <input type="text" id="product-stock-input" name="stock" class="form-control" oninput="onlyNumber(this)" placeholder="Počet kusů">
+        <input type="text" id="product-stock-input" name="stock" class="form-control" oninput="onlyNumber(this)" placeholder="Počet kusů" value="{{product.stock}}">
     </div>
     <div class="col-1 d-flex align-items-center product-stock-check"><i class="fa-sharp fa-solid fa-circle-check fa-xl"></i></div>
 
@@ -70,7 +70,7 @@
         <label for="size" class="form-label">Velikost:</label>
     </div>
     <div class="col-3">
-        <input id="product-size-input" placeholder="Velikost" type="text" name="size" class="form-control">
+        <input id="product-size-input" placeholder="Velikost" type="text" name="size" class="form-control" value="{{product.discount}}">
     </div>
     <div class="col-1 d-flex align-items-center product-size-check">
         <i class="fa-sharp fa-solid fa-circle-check fa-xl"></i>
@@ -148,7 +148,7 @@
 </div>
 
 <div class="col-9">
-<textarea name="description" id="product-description-input" rows="5" class="form-control" placeholder="Popis produktu"></textarea>
+<textarea name="description" id="product-description-input" rows="5" class="form-control" placeholder="Popis produktu" >{{product.description}}</textarea>
 <div class="product-description-text text-start" id="product-description-text"><small class=" productname-used"></small></div>
 </div>
 
@@ -163,7 +163,7 @@
 
 
             <br>
-        <input type="submit" value="Přidat produkt" class="btn btn-info tm-2">
+        <input type="submit" value="Upravit" class="btn btn-info tm-2">
     
       </form>
 </div>
@@ -174,10 +174,20 @@
 
 
 
-
-
-
 </div>
+
+
+
+
+
+<div class="d-flex justify-content-center product-name-edit" ><h1> {{product.product}}</h1> </div>
+<br> <br> <br>
+<div class="d-flex justify-content-center px-5 product-description-edit"><p>{{product.description}}</p></div>
+
+
+
+
+
 
 
 <div id="products-list">
@@ -186,28 +196,49 @@
       <thead>
         <tr>
           <th scope="col">ID</th>
-          <th scope="col">Product</th>
           <th scope="col">Cena</th>
           <th scope="col">Kategorie</th>
           <th scope="col">Značka</th>
-          <th scope="col">Zasoby</th>
-          <th scope="col">Upravit</th>
-          <th scope="col">Smazat</th>
+          <th scope="col">Barva</th>
+          <th scope="col">Zásoby(ks)</th>
+          <th scope="col">Sleva</th>
+          <th scope="col">Datum vytvoření</th>
+          <th scope="col">Editováno</th>
+          <th scope="col">Datum editace</th>
         </tr>
       </thead>
       <tbody>
-        {% for product in products %}
         <tr>
           <th scope="row">{{ product.id }}</th>
-          <td>{{ product.product }}</td>
-          <td>{{ product.price }}</td>
-          <td>{{ product.category.category}}</td>
-          <td>{{ product.brand.brand }}</td>
-          <td>{{ product.stock }}</td>
-          <td><a class="btn btn-info btn-sm" href="/editproduct/{{ product.id }}">Upravit</a></td>
-          <td><a id="category-{{product.id}}" data-id="{{ product.id }}" class="btn btn-danger btn-sm delete-category-button"href="/deletecategory/{{ product.id }}">Smazat</a></td>
+          <td class="edited-product-price">{{ product.price }}</td>
+          <td class="edited-product-category">{{ product.category.category }}</td>
+          <td class="edited-product-brand">{{ product.brand.brand}}</td>
+          <td class="edited-product-color">{{ product.color.color }}</td>
+          <td class="edited-product-stock">{{ product.stock }}</td>
+          {% if product.discount == "" %}
+          <td class="edited-product-discount">0 %</td>
+          {% else %}
+          <td class="edited-product-discount">{{ product.discount }}</td>
+          {% endif %}
+          <td class="edited-product-pub_date">{{ product.pub_date.strftime('%H:%M, %d %b, %Y')  }}</td>
+          <td class="edited-product-edited">
+            {% if product.edited == True %}
+            <p>Ano</p>
+            {% else %}
+            <p>NE</p>
+            {% endif %}
+          </td>
+
+          <td class="edited-product-time-edited">
+            {% if product.date_edited == None%}
+            <p>Needitováno</p>
+            {% else %}
+            <p>{{ product.date_edited.strftime('%H:%M, %d %b, %Y') }}</p>
+            {% endif %}
+          </td>
+
+
         </tr>
-        {% endfor %}
       </tbody>
     </table>
   

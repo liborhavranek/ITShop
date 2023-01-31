@@ -97,6 +97,8 @@ class Product(db.Model):
     size = db.Column(db.Text, nullable=False)
     description = db.Column(db.Text, nullable=False)
     pub_date = db.Column(db.DateTime, nullable=False,default=datetime.utcnow)
+    date_edited = db.Column(db.DateTime)
+    edited = db.Column(db.Boolean, default=False)
     
     
     

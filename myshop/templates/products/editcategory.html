@@ -22,7 +22,7 @@
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
       <input type="hidden" name="value_id_for_jquery" value="{{category.id}}">
       <label for="edit_category" class="form-label"><p class="edit-category-name-two">Změnit kategorii {{category.category}}</p></label>
-      <input type="text" name="edit_category" class="form-control"> <br>
+      <input type="text" name="edit_category" class="form-control" value="{{category.category}}"> <br>
       <input type="submit" value="Upravit kategorii" class="btn btn-info tm-2">
   </form>
   
