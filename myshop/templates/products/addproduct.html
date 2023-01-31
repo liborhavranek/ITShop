@@ -205,7 +205,7 @@
           <td>{{ product.brand.brand }}</td>
           <td>{{ product.stock }}</td>
           <td><a class="btn btn-info btn-sm" href="/editproduct/{{ product.id }}">Upravit</a></td>
-          <td><a id="category-{{product.id}}" data-id="{{ product.id }}" class="btn btn-danger btn-sm delete-category-button"href="/deletecategory/{{ product.id }}">Smazat</a></td>
+          <td><a id="product-{{product.id}}" data-id="{{ product.id }}" class="btn btn-danger btn-sm delete-product-button"href="/deleteproduct/{{ product.id }}">Smazat</a></td>
         </tr>
         {% endfor %}
       </tbody>

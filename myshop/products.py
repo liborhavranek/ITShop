@@ -383,3 +383,13 @@ def editproduct(id):
                 'category':category,
             })
     return render_template('editproduct.html', product=product, brands=brands, categories=categories, colors=colors)
+
+
+
+@products.route('/deleteproduct/<int:id>', methods=['DELETE'])
+@login_required
+def deleteproduct(id):
+    product = Product.query.filter_by(id=id).first()
+    db.session.delete(product)
+    db.session.commit()
+    return jsonify({'message': 'Product byl smazán'})
